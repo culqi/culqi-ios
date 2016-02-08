@@ -14,5 +14,5 @@ Tenemos una [guía](https://www.culqi.com/docs) que explica desde la creación d
 Hay un aplicación de ejemplo en este repositorio:
 - Culqi Ejemplo iOS (Formulario Web) muestra una integración rápida usando el formulario web de pago de Culqi.
 
-Una vez ejecutada, puedes probar la aplicación usando la tarjeta (4111 1111 1111 1111, con fecha de vencimiento:09/20 y CVV:123).
+Una vez ejecutada, puedes probar la aplicación usando la tarjeta (4111 1111 1111 1111, con fecha de vencimiento 09/20 y CVV 123).
 
