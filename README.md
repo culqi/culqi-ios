@@ -9,7 +9,7 @@ Nuestro SDK es compatible con aplicaciones para iOS 8 y superior.
 
 Tenemos una [guía](https://www.culqi.com/docs) que explica desde la creación de una venta, la instalación, la configuración , el procesamiento de la venta y más.
 
-## Aplicación de ejmeplo
+## Aplicación de ejemplo
 
 Hay un aplicación de ejemplo en este repositorio:
 - Culqi Ejemplo iOS (Formulario Web) muestra una integración rápida usando el formulario web de pago de Culqi.
