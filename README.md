@@ -1,6 +1,6 @@
-# Culqi iOS SDK
+# Culqi iOS
 
-El Culqi iOS hace sencillo aceptar tarjetas dentro de tu aplicación, usando un formulario web de pago.
+Culqi hace sencillo aceptar tarjetas dentro de tu aplicación, usando un formulario web de pago.
 
 ## Requirimientos
 Es compatible con aplicaciones para iOS 8 y superior.
