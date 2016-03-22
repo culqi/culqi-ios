@@ -73,7 +73,7 @@ respuesta | Es la respuesta de Culqi cifrada.
 
 Y obtendrás como respuesta:
 
-### Parámetros de respuesta
+### Parámetros de respuesta 
 
 EL JSON que vas a recibir contiene los siguientes parámetros.
 
