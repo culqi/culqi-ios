@@ -19,4 +19,14 @@
 
 @property (nonatomic, strong, readonly) CQLTokenCard *tokenCard;
 
+- (instancetype)initWithIdentifier:(nonnull NSString *)identifier
+                             email:(nonnull NSString *)email
+                         createdAt:(nonnull NSString *)createdAt
+                        objectType:(nonnull NSString *)objectType;
+
++ (instancetype)newWithIdentifier:(nonnull NSString *)identifier
+                            email:(nonnull NSString *)email
+                        createdAt:(nonnull NSString *)createdAt
+                       objectType:(nonnull NSString *)objectType;
+
 @end

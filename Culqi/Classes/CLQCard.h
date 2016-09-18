@@ -18,6 +18,22 @@
 @property (nonatomic, readonly) NSString *lastName;
 @property (nonatomic, readonly) NSString *email;
 
+- (instancetype)initWithNumber:(nonnull NSString *)number
+                           CVC:(nonnull NSString *)cvc
+                      expMonth:(nonnull NSString *)expMonth
+                       expYear:(nonnull NSString *)expYear
+                     firstName:(nonnull NSString *)firstName
+                      lastName:(nonnull NSString *)lastName
+                         email:(nonnull NSString *)email;
+
++ (instancetype)newWithNumber:(nonnull NSString *)number
+                          CVC:(nonnull NSString *)cvc
+                     expMonth:(nonnull NSString *)expMonth
+                      expYear:(nonnull NSString *)expYear
+                    firstName:(nonnull NSString *)firstName
+                     lastName:(nonnull NSString *)lastName
+                        email:(nonnull NSString *)email;
+
 - (void)drive;
 
 @end
