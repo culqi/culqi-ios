@@ -20,6 +20,17 @@ SDK oficial de CULQI para iOS, pagos simples en tu sitio web.
 
 ![alt tag](http://i.imgur.com/NhE6mS9.png)
 
+## Test it out!
+
+To check out the SDK in action download this repository and run pod install 
+
+```bash
+$ gem cd culqi-ios/Example
+$ gem pod install 
+```
+Open Culqi.xcworkspace and run it!
+> **Don't forget**: Change the merchant code in the CLQAppDelegate.m class  
+
 ## Instalación
 
 Culqui-iOS SDK can be installed through [CocoaPods](http://cocoapods.org)
