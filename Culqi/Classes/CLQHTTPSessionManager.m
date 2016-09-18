@@ -34,7 +34,7 @@ static bool isFirstAccess = YES;
     return SINGLETON;
 }
 
-+ (CLQHTTPSessionManager *)sharedInstance{
++ (CLQHTTPSessionManager *)manager{
     NSAssert(SINGLETON, @"You must initialize this class with the base URL");
     
     return SINGLETON;
@@ -81,6 +81,7 @@ static bool isFirstAccess = YES;
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
         
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [self.responseSerializer setAcceptableContentTypes:[self.responseSerializer.acceptableContentTypes setByAddingObjectsFromArray:@[@"text/html", @"application/x-www-form-urlencoded"]]];
     }
     return self;
 }

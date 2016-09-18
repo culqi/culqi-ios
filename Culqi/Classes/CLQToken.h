@@ -10,25 +10,27 @@
 
 @class CQLTokenCard;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface CLQToken : NSObject
 
-@property (nonatomic, readonly) NSString *email;
-@property (nonatomic, readonly) NSString *objectType;
-@property (nonatomic, readonly) NSString *identifier;
-@property (nonatomic, readonly) NSString *createdAt;
+@property (nonatomic, readonly) NSString * email;
+@property (nonatomic, readonly) NSString * objectType;
+@property (nonatomic, readonly) NSString * identifier;
+@property (nonatomic, readonly) NSString * createdAt;
 
-@property (nonatomic, strong, readonly) CQLTokenCard *tokenCard;
+@property (nonatomic, strong, readonly) CQLTokenCard * tokenCard;
 
-- (instancetype)initWithIdentifier:(nonnull NSString *)identifier
-                             email:(nonnull NSString *)email
-                         createdAt:(nonnull NSString *)createdAt
-                        objectType:(nonnull NSString *)objectType
-                         tokenCard:(nonnull CQLTokenCard *)tokenCard;
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                                     email:(NSString *)email
+                                 createdAt:(NSString *)createdAt
+                                objectType:(NSString *)objectType
+                                 tokenCard:(CQLTokenCard *)tokenCard;
 
-+ (instancetype)newWithIdentifier:(nonnull NSString *)identifier
-                            email:(nonnull NSString *)email
-                        createdAt:(nonnull NSString *)createdAt
-                       objectType:(nonnull NSString *)objectType
-                        tokenCard:(nonnull CQLTokenCard *)tokenCard;
++ (instancetype)newWithIdentifier:(NSString *)identifier
+                                    email:(NSString *)email
+                                createdAt:(NSString *)createdAt
+                               objectType:(NSString *)objectType
+                                tokenCard:(CQLTokenCard *)tokenCard;
 
 @end
+NS_ASSUME_NONNULL_END

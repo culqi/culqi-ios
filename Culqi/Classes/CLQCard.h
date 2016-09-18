@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface CLQCard : NSObject
 
 @property (nonatomic, readonly) NSNumber *number;
@@ -18,22 +19,23 @@
 @property (nonatomic, readonly) NSString *lastName;
 @property (nonatomic, readonly) NSString *email;
 
-- (instancetype)initWithNumber:(nonnull NSNumber *)number
-                           CVC:(nonnull NSNumber *)cvc
-                      expMonth:(nonnull NSNumber *)expMonth
-                       expYear:(nonnull NSNumber *)expYear
-                     firstName:(nonnull NSString *)firstName
-                      lastName:(nonnull NSString *)lastName
-                         email:(nonnull NSString *)email;
+- (instancetype)initWithNumber:(NSNumber *)number
+                           CVC:(NSNumber *)cvc
+                      expMonth:(NSNumber *)expMonth
+                       expYear:(NSNumber *)expYear
+                     firstName:(NSString *)firstName
+                      lastName:(NSString *)lastName
+                         email:(NSString *)email;
 
-+ (instancetype)newWithNumber:(nonnull NSNumber *)number
-                          CVC:(nonnull NSNumber *)cvc
-                     expMonth:(nonnull NSNumber *)expMonth
-                      expYear:(nonnull NSNumber *)expYear
-                    firstName:(nonnull NSString *)firstName
-                     lastName:(nonnull NSString *)lastName
-                        email:(nonnull NSString *)email;
++ (instancetype)newWithNumber:(NSNumber *)number
+                          CVC:(NSNumber *)cvc
+                     expMonth:(NSNumber *)expMonth
+                      expYear:(NSNumber *)expYear
+                    firstName:(NSString *)firstName
+                     lastName:(NSString *)lastName
+                        email:(NSString *)email;
 
 - (void)drive;
 
 @end
+NS_ASSUME_NONNULL_END

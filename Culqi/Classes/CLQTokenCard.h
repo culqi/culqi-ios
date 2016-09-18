@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface CLQTokenCard : NSObject
 
 @property (nonatomic, readonly) NSString *brand;
@@ -16,16 +17,17 @@
 @property (nonatomic, readonly) NSString *lastName;
 @property (nonatomic, readonly) NSString *firstName;
 
-- (instancetype)initWithBrand:(nonnull NSString *)brand
-                       number:(nonnull NSString *)number
-                          bin:(nonnull NSString *)bin
-                     lastName:(nonnull NSString *)lastName
-                    firstName:(nonnull NSString *)firstName;
+- (instancetype)initWithBrand:(NSString *)brand
+                       number:(NSString *)number
+                          bin:(NSString *)bin
+                     lastName:(NSString *)lastName
+                    firstName:(NSString *)firstName;
 
-+ (instancetype)newWithBrand:(nonnull NSString *)brand
-                      number:(nonnull NSString *)number
-                         bin:(nonnull NSString *)bin
-                    lastName:(nonnull NSString *)lastName
-                   firstName:(nonnull NSString *)firstName;
++ (instancetype)newWithBrand:(NSString *)brand
+                      number:(NSString *)number
+                         bin:(NSString *)bin
+                    lastName:(NSString *)lastName
+                   firstName:(NSString *)firstName;
 
 @end
+NS_ASSUME_NONNULL_END

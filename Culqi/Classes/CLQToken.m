@@ -12,7 +12,7 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithIdentifier:(NSString *)identifier email:(NSString *)email createdAt:(NSString *)createdAt objectType:(NSString *)objectType tokenCard:(nonnull CQLTokenCard *)tokenCard {
+- (instancetype)initWithIdentifier:(NSString *)identifier email:(NSString *)email createdAt:(NSString *)createdAt objectType:(NSString *)objectType tokenCard:(CQLTokenCard *)tokenCard {
     
     self = [super init];
     if (self) {
@@ -25,7 +25,7 @@
     return self;
 }
 
-+ (instancetype)newWithIdentifier:(NSString *)identifier email:(NSString *)email createdAt:(NSString *)createdAt objectType:(NSString *)objectType tokenCard:(nonnull CQLTokenCard *)tokenCard {
++ (instancetype)newWithIdentifier:(NSString *)identifier email:(NSString *)email createdAt:(NSString *)createdAt objectType:(NSString *)objectType tokenCard:(CQLTokenCard *)tokenCard {
     
     return [[CLQToken alloc] initWithIdentifier:identifier
                                           email:email

@@ -11,6 +11,7 @@
 @class CLQCard;
 @class CLQToken;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface Culqi : NSObject
 
 @property (nonatomic, readonly) NSString *merchantCode;
@@ -21,10 +22,11 @@
  */
 + (Culqi *)sharedInstance;
 
-- (void)setMerchantCode:(nonnull NSString *)merchantCode;
+- (void)setMerchantCode:(NSString *)merchantCode;
 
 - (void)createTokenForCard:(CLQCard *)card
-                   success:(void (^)(CLQToken *))success
+                   success:(void (^)(CLQToken *token))success
                    failure:(void (^)(NSError *error))failure;
 
 @end
+NS_ASSUME_NONNULL_END

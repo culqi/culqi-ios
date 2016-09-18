@@ -8,9 +8,11 @@
 
 #import <AFNetworking/AFNetworking.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface CLQHTTPSessionManager : AFHTTPSessionManager
 
 + (CLQHTTPSessionManager *)initWithBaseURLString:(NSString *)baseURLString;
-+ (CLQHTTPSessionManager *)sharedInstance;
++ (CLQHTTPSessionManager *)manager;
 
 @end
+NS_ASSUME_NONNULL_END

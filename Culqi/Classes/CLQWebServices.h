@@ -8,18 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface CLQWebServices : NSObject
 
 + (void)setAutorizationHeaderFieldWithMerchantCode:(NSString *)merchantCode;
 
-+ (void)createTokenForEmail:(nonnull NSString *)email
-                  firstName:(nonnull NSString *)firstName
-                   lastName:(nonnull NSString *)lastName
-                        CVC:(nonnull NSNumber *)cvc
-                   expMonth:(nonnull NSNumber *)expMonth
-                    expYear:(nonnull NSNumber *)expYear
-                     number:(nonnull NSNumber *)number
++ (void)createTokenForEmail:(NSString *)email
+                  firstName:(NSString *)firstName
+                   lastName:(NSString *)lastName
+                        CVC:(NSNumber *)cvc
+                   expMonth:(NSNumber *)expMonth
+                    expYear:(NSNumber *)expYear
+                     number:(NSNumber *)number
                     success:(void (^)(NSDictionary *responseObject))success
                     failure:(void (^)(NSError *error))failure;
 
 @end
+NS_ASSUME_NONNULL_END

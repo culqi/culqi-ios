@@ -65,7 +65,7 @@ static bool isFirstAccess = YES;
     }
     self = [super init];
     if (self) {
-        [[CLQHTTPSessionManager manager] initWithBaseURL:CLQCheckoutBaseURLString];
+        [CLQHTTPSessionManager initWithBaseURLString:CLQCheckoutBaseURLString];
     }
     return self;
 }
