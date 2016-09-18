@@ -7,16 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Card.h"
-#import "Token.h"
 
-@interface Culqi : NSObject <NSURLConnectionDelegate>
+@class CLQCard;
+@class CLQToken;
 
-@property (nonatomic,strong) NSString *merchantCode;
-@property (copy) Card *card;
-@property (copy) Token *token;
+@interface Culqi : NSObject
 
-- (id)initWithMerchantCode:(NSString *)merchantCode;
-- (void)createToken:(Card *)card completion:(void(^)(Token *token, NSError *tokenError)) completion;
+@property (nonatomic, readonly) NSString *merchantCode;
+
+/**
+ * gets singleton object.
+ * @return singleton
+ */
++ (Culqi *)sharedInstance;
+
+- (void)setMerchantCode:(nonnull NSString *)merchantCode;
+
+- (void)createTokenForCard:(CLQCard *)card
+                   success:(void (^)(CLQToken *))success
+                   failure:(void (^)(NSError *error))failure;
 
 @end

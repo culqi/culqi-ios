@@ -12,7 +12,7 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithNumber:(NSString *)number CVC:(NSString *)cvc expMonth:(NSString *)expMonth expYear:(NSString *)expYear firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email {
+- (instancetype)initWithNumber:(NSNumber *)number CVC:(NSNumber *)cvc expMonth:(NSNumber *)expMonth expYear:(NSNumber *)expYear firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email {
     
     self = [super init];
     if (self) {
@@ -27,7 +27,7 @@
     return self;
 }
 
-+ (instancetype)newWithNumber:(NSString *)number CVC:(NSString *)cvc expMonth:(NSString *)expMonth expYear:(NSString *)expYear firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email {
++ (instancetype)newWithNumber:(NSNumber *)number CVC:(NSNumber *)cvc expMonth:(NSNumber *)expMonth expYear:(NSNumber *)expYear firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email {
     
     return [[CLQCard alloc] initWithNumber:number
                                        CVC:cvc

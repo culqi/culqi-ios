@@ -22,11 +22,13 @@
 - (instancetype)initWithIdentifier:(nonnull NSString *)identifier
                              email:(nonnull NSString *)email
                          createdAt:(nonnull NSString *)createdAt
-                        objectType:(nonnull NSString *)objectType;
+                        objectType:(nonnull NSString *)objectType
+                         tokenCard:(nonnull CQLTokenCard *)tokenCard;
 
 + (instancetype)newWithIdentifier:(nonnull NSString *)identifier
                             email:(nonnull NSString *)email
                         createdAt:(nonnull NSString *)createdAt
-                       objectType:(nonnull NSString *)objectType;
+                       objectType:(nonnull NSString *)objectType
+                        tokenCard:(nonnull CQLTokenCard *)tokenCard;
 
 @end

@@ -8,129 +8,120 @@
 
 #import "Culqi.h"
 
+#import "CLQHTTPSessionManager.h"
+#import "CLQWebServices.h"
+#import "CLQCard.h"
+#import "CLQToken.h"
+#import "CLQTokenCard.h"
+
 @implementation Culqi
 
-@synthesize card = _card;
-@synthesize token = _token;
-@synthesize merchantCode = _merchantCode;
+static NSString *CLQCheckoutBaseURLString = @"https://integ-pago.culqi.com/api/v1/";
 
-- (id)initWithMerchantCode:(NSString *)merchantCode {
+static Culqi *SINGLETON = nil;
+
+static bool isFirstAccess = YES;
+
+#pragma mark - Public Method
+
++ (instancetype)sharedInstance {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        isFirstAccess = NO;
+        SINGLETON = [[super allocWithZone:NULL] init];    
+    });
+    
+    return SINGLETON;
+}
+
+#pragma mark - Life Cycle
+
++ (id) allocWithZone:(NSZone *)zone {
+    return [self sharedInstance];
+}
+
++ (id)copyWithZone:(struct _NSZone *)zone {
+    return [self sharedInstance];
+}
+
++ (id)mutableCopyWithZone:(struct _NSZone *)zone {
+    return [self sharedInstance];
+}
+
+- (id)copy {
+    return [[Culqi alloc] init];
+}
+
+- (id)mutableCopy {
+    return [[Culqi alloc] init];
+}
+
+- (id) init {
+    if(SINGLETON){
+        return SINGLETON;
+    }
+    if (isFirstAccess) {
+        [self doesNotRecognizeSelector:_cmd];
+    }
     self = [super init];
-    if(self)
-    {
-        self.merchantCode = merchantCode;
+    if (self) {
+        [[CLQHTTPSessionManager manager] initWithBaseURL:CLQCheckoutBaseURLString];
     }
     return self;
 }
 
-- (void) performHttpRequest:(NSDictionary *)postDict completion:(void(^)(NSDictionary *dict, NSError *error)) completion
-{
-    NSError *error;
-    NSString *authHeader;
-    NSData *jsonData;
-    NSURL *tokenUrl;
+#pragma mark - Autorization
+
+- (void)setMerchantCode:(NSString *)merchantCode {
     
-    NSMutableURLRequest *request;
+    [CLQWebServices setAutorizationHeaderFieldWithMerchantCode:merchantCode];
     
-    jsonData = [NSJSONSerialization dataWithJSONObject:postDict options:0 error:&error];
-    
-    if (!jsonData) {
-        if (completion)
-            completion(nil, error);
-        return;
-    }
-    
-    tokenUrl = [NSURL URLWithString:@"https://integ-pago.culqi.com/api/v1/tokens"];
-    request = [NSMutableURLRequest requestWithURL:tokenUrl
-                                          cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                      timeoutInterval:60.0];
-    
-    authHeader   = [NSString stringWithFormat:@"Bearer %@", _merchantCode];
-    
-    [request setValue:authHeader forHTTPHeaderField:@"Authorization"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:jsonData];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-     {
-         if (!data) {
-             
-             if (completion)
-             {
-                 completion(nil, error);
-             }
-             return;
-         }
-         
-         NSError *parseError = nil;
-         NSDictionary *returnDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-         
-         if (completion) {
-             completion(returnDict, parseError);
-         }
-     }];
+    _merchantCode = merchantCode;
 }
 
+#pragma mark - Tokenization
 
-
-- (void)createToken:(Card *)card completion:(void(^)(Token *token, NSError *tokenError)) completion {
- 
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-
-    NSDictionary *dictionary = @{@"correo_electronico":card.email,
-                                 @"nombre":card.firstName,
-                                 @"apellido":card.lastName,
-                                 @"cvv":[f numberFromString:card.cvc],
-                                 @"m_exp":[f numberFromString:card.expMonth],
-                                 @"a_exp":[f numberFromString:card.expYear],
-                                 @"numero":[f numberFromString:card.number]};
+- (void)createTokenForCard:(CLQCard *)card success:(void (^)(CLQToken *))success failure:(void (^)(NSError *))failure {
     
-    [self performHttpRequest:dictionary completion:^(NSDictionary *dict, NSError *error) {
+    [CLQWebServices createTokenForEmail:card.email firstName:card.firstName lastName:card.lastName CVC:card.cvc expMonth:card.expMonth expYear:card.expYear number:card.number success:^(NSDictionary *responseObject) {
         
-        if (error) {
-            
-            NSString *domain = @"Lorem";
-            
-            int errorCode = 4;
-            
-            NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-            
-            [userInfo setObject:@"Maximum parameter is not greater than minimum parameter"
-                             forKey:NSLocalizedDescriptionKey];
-                
-            
-            NSError *errorResponse = [[NSError alloc] initWithDomain:domain
-                                                   code:errorCode
-                                               userInfo:userInfo];
-                
-            completion(nil,errorResponse);
-            
-            return;
-            
-        }
+        CLQToken *token = [self createTokenFromDictionary:responseObject];
         
-        NSLog( @"%@", dict );
-        
-        NSDictionary *tokenCardDictionary = dict[@"tarjeta"];
-
-        TokenCard *tokenCard = [[TokenCard alloc] init];
-        [tokenCard setNumber:tokenCardDictionary[@"numero"]];
-        [tokenCard setBin:tokenCardDictionary[@"bin"]];
-        [tokenCard setBrand:tokenCardDictionary[@"marca"]];
-        [tokenCard setLastName:tokenCardDictionary[@"apellido"]];
-        [tokenCard setFirstName:tokenCardDictionary[@"nombre"]];
-        
-        Token *token = [[Token alloc] init];
-        [token setId:dict[@"id"]];
-        [token setEmail:dict[@"correo_electronico"]];
-        [token setObjectType:dict[@"objeto"]];
-        [token setTokenCard:tokenCard];
-        
-        completion(token,nil);
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (success) success(token);
+        });
+    } failure:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (failure) failure(error);
+        });
     }];
+}
+
+#pragma mark - Object Parsing
+
+- (CLQToken *)createTokenFromDictionary:(NSDictionary *)tokenDictionary {
     
+    NSString *identifier = [tokenDictionary objectForKey:@"id"];
+    NSString *email = [tokenDictionary objectForKey:@"correo_electronico"];
+    NSString *objectType = [tokenDictionary objectForKey:@"objeto"];
+    // TODO: set createdAt
+    
+    NSDictionary *tokenCardDictionary = [tokenDictionary objectForKey:@"tarjeta"];
+    
+    CLQTokenCard *tokenCard = [self createTokenCardFromDictionary:tokenCardDictionary];
+
+    return [CLQToken newWithIdentifier:identifier email:email createdAt:@"" objectType:objectType tokenCard:tokenCard];
+}
+
+- (CLQTokenCard *)createTokenCardFromDictionary:(NSDictionary *)tokenCardDictionary {
+    
+    NSString *brand = [tokenCardDictionary objectForKey:@"marca"];
+    NSString *number = [tokenCardDictionary objectForKey:@"numero"];
+    NSString *bin = [tokenCardDictionary objectForKey:@"bin"];
+    NSString *lastName = [tokenCardDictionary objectForKey:@"apellido"];
+    NSString *firstName = [tokenCardDictionary objectForKey:@"nombre"];
+    
+    return [CLQTokenCard newWithBrand:brand number:number bin:bin lastName:lastName firstName:firstName];
 }
 
 @end

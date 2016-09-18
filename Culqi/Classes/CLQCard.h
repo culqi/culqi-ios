@@ -10,26 +10,26 @@
 
 @interface CLQCard : NSObject
 
-@property (nonatomic, readonly) NSString *number;
-@property (nonatomic, readonly) NSString *cvc;
-@property (nonatomic, readonly) NSString *expMonth;
-@property (nonatomic, readonly) NSString *expYear;
+@property (nonatomic, readonly) NSNumber *number;
+@property (nonatomic, readonly) NSNumber *cvc;
+@property (nonatomic, readonly) NSNumber *expMonth;
+@property (nonatomic, readonly) NSNumber *expYear;
 @property (nonatomic, readonly) NSString *firstName;
 @property (nonatomic, readonly) NSString *lastName;
 @property (nonatomic, readonly) NSString *email;
 
-- (instancetype)initWithNumber:(nonnull NSString *)number
-                           CVC:(nonnull NSString *)cvc
-                      expMonth:(nonnull NSString *)expMonth
-                       expYear:(nonnull NSString *)expYear
+- (instancetype)initWithNumber:(nonnull NSNumber *)number
+                           CVC:(nonnull NSNumber *)cvc
+                      expMonth:(nonnull NSNumber *)expMonth
+                       expYear:(nonnull NSNumber *)expYear
                      firstName:(nonnull NSString *)firstName
                       lastName:(nonnull NSString *)lastName
                          email:(nonnull NSString *)email;
 
-+ (instancetype)newWithNumber:(nonnull NSString *)number
-                          CVC:(nonnull NSString *)cvc
-                     expMonth:(nonnull NSString *)expMonth
-                      expYear:(nonnull NSString *)expYear
++ (instancetype)newWithNumber:(nonnull NSNumber *)number
+                          CVC:(nonnull NSNumber *)cvc
+                     expMonth:(nonnull NSNumber *)expMonth
+                      expYear:(nonnull NSNumber *)expYear
                     firstName:(nonnull NSString *)firstName
                      lastName:(nonnull NSString *)lastName
                         email:(nonnull NSString *)email;
