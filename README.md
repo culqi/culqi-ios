@@ -7,14 +7,13 @@
 SDK oficial de CULQI para iOS, pagos simples en tu sitio web.
 
 > **Importante**: Hemos descontinuado el soporte a la versión 1.0 de Culqi API para centrarnos en la nueva versión. 
-#Si estabas trabajando con la anterior versión de esta biblioteca puedes entrar al branch [1.1.1](https://github.com/culqi/culqi-php/tree/1.1.1).
 
 **Nota**: Esta biblioteca trabaja con la [v1.2](https://culqi.api-docs.io/v1.2) de Culqi API.
 
 
 ## Requisitos
 
-* iOS 7.0 o superior.
+* iOS 8.0 o superior.
 * Credenciales de comercio Culqi (1).
 
 (1) Debes registrarte [aquí](https://integ-panel.culqi.com/#/registro). Luego, crear un comercio y estando en el panel, acceder a Desarrollo > [***API Keys***](https://integ-panel.culqi.com/#/panel/comercio/desarrollo/llaves).
@@ -22,6 +21,37 @@ SDK oficial de CULQI para iOS, pagos simples en tu sitio web.
 ![alt tag](http://i.imgur.com/NhE6mS9.png)
 
 ## Instalación
+
+Culqui-iOS SDK can be installed through [CocoaPods](http://cocoapods.org)
+
+## Installation with CocoaPods
+
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like Culqi-iOS SDK in your projects. You can install it with the following command:
+
+```bash
+$ gem install cocoapods
+```
+
+> CocoaPods 1.0+ is required to build Culqi-iOS SDK.
+
+#### Podfile
+
+To integrate Culqi-iOS SDK into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+
+target 'TargetName' do
+pod 'Culqi', '~> 1.0'
+end
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
 
 ### Manualmente
 
