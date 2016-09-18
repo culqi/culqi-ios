@@ -77,9 +77,9 @@ Inicialmente hay que configurar la credencial `merchantCode`:
 // Configurar tu Código de Comercio
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-[[Culqi sharedInstance] setMerchantCode:@"<CHANGE THIS FOR YOUR MERCHANT CODE>"];
+    [[Culqi sharedInstance] setMerchantCode:@"<CHANGE THIS FOR YOUR MERCHANT CODE>"];
 
-return YES;
+    return YES;
 }
 
 
@@ -90,30 +90,20 @@ Antes de crear un Cargo, Plan o un Suscripción es necesario crear un `token` de
 
 
 ```objective-c
-//Obtén los datos de la tarjeta de tu cliente
-Card *card = [[Card alloc] init];
-card.number = @"4111111111111111";
-card.cvc = @"123";
-card.expMonth = @"09";
-card.expYear = @"2020";
-card.email = @"wmuro@me.com";
-card.lastName = @"Muro";
-card.firstName = @"William";
 
-//Crea el token de tarjeta
 CLQCard *card = [CLQCard newWithNumber:[numberFormatter numberFromString:self.txtFieldCardNumber.text]
-CVC:[numberFormatter numberFromString:self.txtFieldCVC.text]
-expMonth:[numberFormatter numberFromString:self.txtFieldExpMonth.text]
-expYear:[numberFormatter numberFromString:self.txtFieldExpYear.text]
+                                   CVC:[numberFormatter numberFromString:self.txtFieldCVC.text]
+                              expMonth:[numberFormatter numberFromString:self.txtFieldExpMonth.text]
+                               expYear:[numberFormatter numberFromString:self.txtFieldExpYear.text]
 
-firstName:self.txtFieldName.text
-lastName:self.txtFieldLastName.text
-email:self.txtFieldEmail.text];
+                             firstName:self.txtFieldName.text
+                              lastName:self.txtFieldLastName.text
+                                email:self.txtFieldEmail.text];
 
 [[Culqi sharedInstance] createTokenForCard:card success:^(CLQToken * _Nonnull token) {
-NSLog(@"Did create token with identifier: %@", token.identifier);
+    NSLog(@"Did create token with identifier: %@", token.identifier);
 } failure:^(NSError * _Nonnull error) {
-NSLog(@"Error Creating token: %@", error.localizedDescription);
+    NSLog(@"Error Creating token: %@", error.localizedDescription);
 }];
 
 
