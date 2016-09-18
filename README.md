@@ -75,7 +75,12 @@ Inicialmente hay que configurar la credencial `merchantCode`:
 
 ```objective-c
 // Configurar tu Código de Comercio
-    Culqi *culqi = [[Culqi alloc] initWithMerchantCode:@"<Ingresa aquí tu código de comercio>"];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+[[Culqi sharedInstance] setMerchantCode:@"<CHANGE THIS FOR YOUR MERCHANT CODE>"];
+
+return YES;
+}
 
 
 ```
@@ -96,32 +101,20 @@ card.lastName = @"Muro";
 card.firstName = @"William";
 
 //Crea el token de tarjeta
-[culqi createToken:card completion:^(Token *token, NSError *error) {
+CLQCard *card = [CLQCard newWithNumber:[numberFormatter numberFromString:self.txtFieldCardNumber.text]
+CVC:[numberFormatter numberFromString:self.txtFieldCVC.text]
+expMonth:[numberFormatter numberFromString:self.txtFieldExpMonth.text]
+expYear:[numberFormatter numberFromString:self.txtFieldExpYear.text]
 
-        if (error) {
-             //Si recibes error, muestra a tu cliente el mensaje dirigido al usuario.
-            NSLog(@"¡Ocurrió un error!");
-            NSLog(@"Domain: %@ Code: %li", [error domain], [error code]);
-            NSLog(@"Descripción: %@", [error localizedDescription]);
-            
-        } else {
-            
-            NSLog(@"¡Registro exitoso!");
+firstName:self.txtFieldName.text
+lastName:self.txtFieldLastName.text
+email:self.txtFieldEmail.text];
 
-            //Tienes que enviar el token.id a tu servidor para realizar un cargo o una suscripción.
-            NSLog(@"Token de tarjeta: %@", token.id);
-            
-            //También tienes información adicional que te puede ser útil.
-            NSLog(@"Número de tarjeta: %@", token.tokenCard.number);
-            NSLog(@"Marca de tarjeta: %@", token.tokenCard.brand);
-            NSLog(@"Correo electrónico: %@", token.email);
-            NSLog(@"Nombre: %@", token.tokenCard.firstName);
-            NSLog(@"Apellido: %@", token.tokenCard.lastName);
-            NSLog(@"Bin de tarjeta: %@", token.tokenCard.bin);
-
-        }
-        
-    }];
+[[Culqi sharedInstance] createTokenForCard:card success:^(CLQToken * _Nonnull token) {
+NSLog(@"Did create token with identifier: %@", token.identifier);
+} failure:^(NSError * _Nonnull error) {
+NSLog(@"Error Creating token: %@", error.localizedDescription);
+}];
 
 
 ```
