@@ -22,7 +22,7 @@ SDK oficial de CULQI para iOS, pagos simples en tu sitio web.
 
 ## Test it out!
 
-To check out the SDK in action download this repository and run pod install 
+To see the SDK in action just download this repository and run: 
 
 ```bash
 $ gem cd culqi-ios/Example
