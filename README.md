@@ -1,26 +1,68 @@
 # Culqi iOS
 
-[![Latest Stable Version](https://poser.pugx.org/culqi/culqi-php/v/stable)](https://packagist.org/packages/culqi/culqi-php)
-[![Total Downloads](https://poser.pugx.org/culqi/culqi-php/downloads)](https://packagist.org/packages/culqi/culqi-php)
-[![License](https://poser.pugx.org/culqi/culqi-php/license)](https://packagist.org/packages/culqi/culqi-php)
+#[![Latest Stable Version](https://poser.pugx.org/culqi/culqi-php/v/stable)](https://packagist.org/packages/culqi/culqi-php)
+#[![Total Downloads](https://poser.pugx.org/culqi/culqi-php/downloads)](https://packagist.org/packages/culqi/culqi-php)
+#[![License](https://poser.pugx.org/culqi/culqi-php/license)](https://packagist.org/packages/culqi/culqi-php)
 
-Biblioteca PHP oficial de CULQI, pagos simples en tu sitio web.
+SDK oficial de CULQI para iOS, pagos simples en tu sitio web.
 
-> **Importante**: Hemos descontinuado el soporte a la versión 1.0 de Culqi API para centrarnos en la nueva versión. Si estabas trabajando con la anterior versión de esta biblioteca puedes entrar al branch [1.1.1](https://github.com/culqi/culqi-php/tree/1.1.1).
+> **Importante**: Hemos descontinuado el soporte a la versión 1.0 de Culqi API para centrarnos en la nueva versión. 
 
 **Nota**: Esta biblioteca trabaja con la [v1.2](https://culqi.api-docs.io/v1.2) de Culqi API.
 
 
 ## Requisitos
 
-* iOS 7.0 o superior.
+* iOS 8.0 o superior.
 * Credenciales de comercio Culqi (1).
 
 (1) Debes registrarte [aquí](https://integ-panel.culqi.com/#/registro). Luego, crear un comercio y estando en el panel, acceder a Desarrollo > [***API Keys***](https://integ-panel.culqi.com/#/panel/comercio/desarrollo/llaves).
 
 ![alt tag](http://i.imgur.com/NhE6mS9.png)
 
+## Test it out!
+
+To see the SDK in action just download this repository and run: 
+
+```bash
+$ gem cd culqi-ios/Example
+$ gem pod install 
+```
+Open Culqi.xcworkspace and run it!
+> **Don't forget**: Change the merchant code in the CLQAppDelegate.m class  
+
 ## Instalación
+
+Culqui-iOS SDK can be installed through [CocoaPods](http://cocoapods.org)
+
+## Installation with CocoaPods
+
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like Culqi-iOS SDK in your projects. You can install it with the following command:
+
+```bash
+$ gem install cocoapods
+```
+
+> CocoaPods 1.0+ is required to build Culqi-iOS SDK.
+
+#### Podfile
+
+To integrate Culqi-iOS SDK into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+
+target 'TargetName' do
+pod 'Culqi', '~> 1.0'
+end
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
 
 ### Manualmente
 
@@ -44,7 +86,12 @@ Inicialmente hay que configurar la credencial `merchantCode`:
 
 ```objective-c
 // Configurar tu Código de Comercio
-    Culqi *culqi = [[Culqi alloc] initWithMerchantCode:@"<Ingresa aquí tu código de comercio>"];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    [[Culqi sharedInstance] setMerchantCode:@"<CHANGE THIS FOR YOUR MERCHANT CODE>"];
+
+    return YES;
+}
 
 
 ```
@@ -54,43 +101,21 @@ Antes de crear un Cargo, Plan o un Suscripción es necesario crear un `token` de
 
 
 ```objective-c
-//Obtén los datos de la tarjeta de tu cliente
-Card *card = [[Card alloc] init];
-card.number = @"4111111111111111";
-card.cvc = @"123";
-card.expMonth = @"09";
-card.expYear = @"2020";
-card.email = @"wmuro@me.com";
-card.lastName = @"Muro";
-card.firstName = @"William";
 
-//Crea el token de tarjeta
-[culqi createToken:card completion:^(Token *token, NSError *error) {
+CLQCard *card = [CLQCard newWithNumber:[numberFormatter numberFromString:self.txtFieldCardNumber.text]
+                                   CVC:[numberFormatter numberFromString:self.txtFieldCVC.text]
+                              expMonth:[numberFormatter numberFromString:self.txtFieldExpMonth.text]
+                               expYear:[numberFormatter numberFromString:self.txtFieldExpYear.text]
 
-        if (error) {
-             //Si recibes error, muestra a tu cliente el mensaje dirigido al usuario.
-            NSLog(@"¡Ocurrió un error!");
-            NSLog(@"Domain: %@ Code: %li", [error domain], [error code]);
-            NSLog(@"Descripción: %@", [error localizedDescription]);
-            
-        } else {
-            
-            NSLog(@"¡Registro exitoso!");
+                             firstName:self.txtFieldName.text
+                              lastName:self.txtFieldLastName.text
+                                email:self.txtFieldEmail.text];
 
-            //Tienes que enviar el token.id a tu servidor para realizar un cargo o una suscripción.
-            NSLog(@"Token de tarjeta: %@", token.id);
-            
-            //También tienes información adicional que te puede ser útil.
-            NSLog(@"Número de tarjeta: %@", token.tokenCard.number);
-            NSLog(@"Marca de tarjeta: %@", token.tokenCard.brand);
-            NSLog(@"Correo electrónico: %@", token.email);
-            NSLog(@"Nombre: %@", token.tokenCard.firstName);
-            NSLog(@"Apellido: %@", token.tokenCard.lastName);
-            NSLog(@"Bin de tarjeta: %@", token.tokenCard.bin);
-
-        }
-        
-    }];
+[[Culqi sharedInstance] createTokenForCard:card success:^(CLQToken * _Nonnull token) {
+    NSLog(@"Did create token with identifier: %@", token.identifier);
+} failure:^(NSError * _Nonnull error) {
+    NSLog(@"Error Creating token: %@", error.localizedDescription);
+}];
 
 
 ```
