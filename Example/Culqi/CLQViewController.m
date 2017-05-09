@@ -2,26 +2,23 @@
 //  CLQViewController.m
 //  Culqi
 //
-//  Created by Guillermo Saenz on 09/18/2016.
-//  Copyright (c) 2016 Guillermo Saenz. All rights reserved.
+//  Created by Guillermo Sáenz on 09/18/2016.
+//  Copyright (c) 2016 Guillermo Sáenz. All rights reserved.
 //
 
 #import "CLQViewController.h"
 
-#import <Culqi/Culqi.h>
-#import <Culqi/CLQCard.h>
-#import <Culqi/CLQToken.h>
+@import Culqi;
+@import SVProgressHUD;
 
 @interface CLQViewController ()
 
-@property (weak, nonatomic) IBOutlet UITextField *txtFieldCardNumber;
-@property (weak, nonatomic) IBOutlet UITextField *txtFieldExpMonth;
-@property (weak, nonatomic) IBOutlet UITextField *txtFieldExpYear;
-@property (weak, nonatomic) IBOutlet UITextField *txtFieldCVC;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldCardNumber;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldExpMonth;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldExpYear;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldCVC;
 
-@property (weak, nonatomic) IBOutlet UITextField *txtFieldEmail;
-@property (weak, nonatomic) IBOutlet UITextField *txtFieldName;
-@property (weak, nonatomic) IBOutlet UITextField *txtFieldLastName;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldEmail;
 
 @end
 
@@ -29,8 +26,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
-    [self setTestData];
+    
+    // We start the SDK with our merchant code
+#warning Don't forget to put your public key. Get it here: https://integ-panel.culqi.com/#/registro
+    [Culqi setApiKey:@"pk_test_faXvVfDaxIM1152Z"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,44 +41,38 @@
 
 - (void)setTestData {
     
-    [self.txtFieldCardNumber setText:@"4111111111111111"];
-    [self.txtFieldExpMonth setText:@"09"];
-    [self.txtFieldExpYear setText:@"2020"];
-    [self.txtFieldCVC setText:@"123"];
+    [self.textFieldCardNumber setText:@"4111111111111111"];
+    [self.textFieldExpMonth setText:@"09"];
+    [self.textFieldExpYear setText:@"2020"];
+    [self.textFieldCVC setText:@"123"];
     
-    [self.txtFieldEmail setText:@"jhon@test.com"];
-    [self.txtFieldName setText:@"Jhon"];
-    [self.txtFieldLastName setText:@"Test"];
+    [self.textFieldEmail setText:@"jhon@test.com"];
 }
 
 #pragma mark - Actions
 
-- (IBAction)setTestDataActn:(id)sender {
+- (IBAction)setTestDataAction:(id)sender {
     [self setTestData];
     [self.view endEditing:YES];
 }
 
-- (IBAction)createTokenActn:(id)sender {
+- (IBAction)createTokenAction:(id)sender {
     
     // TODO: validate fields
-    
-    NSNumberFormatter *numberFormatter = [NSNumberFormatter new];
-    [numberFormatter setFormatterBehavior:[NSNumberFormatter defaultFormatterBehavior]];
-    
-    CLQCard *card = [CLQCard newWithNumber:[numberFormatter numberFromString:self.txtFieldCardNumber.text]
-                                       CVC:[numberFormatter numberFromString:self.txtFieldCVC.text]
-                                  expMonth:[numberFormatter numberFromString:self.txtFieldExpMonth.text]
-                                   expYear:[numberFormatter numberFromString:self.txtFieldExpYear.text]
-                     
-                                 firstName:self.txtFieldName.text
-                                  lastName:self.txtFieldLastName.text
-                                     email:self.txtFieldEmail.text];
-    
-    [[Culqi sharedInstance] createTokenForCard:card success:^(CLQToken * _Nonnull token) {
-        NSLog(@"Did create token with identifier: %@", token.identifier);
-    } failure:^(NSError * _Nonnull error) {
-        NSLog(@"Error Creating token: %@", error.localizedDescription);
-    }];
+    [SVProgressHUD show];
+    [[Culqi sharedInstance] createTokenWithCardNumber:self.textFieldCardNumber.text
+                                                  cvv:self.textFieldCVC.text
+                                      expirationMonth:self.textFieldExpMonth.text
+                                       expirationYear:self.textFieldExpYear.text
+                                                email:self.textFieldEmail.text
+                                             metadata:nil
+                                              success:^(CLQResponseHeaders * _Nonnull responseHeaders, CLQToken * _Nonnull token) {
+                                                 [SVProgressHUD dismiss];
+                                                 NSLog(@"Did create token with identifier: %@", token.identifier);
+                                             } failure:^(CLQResponseHeaders * _Nonnull responseHeaders, CLQError * _Nonnull businessError, NSError * _Nonnull error) {
+                                                 [SVProgressHUD dismiss];
+                                                 NSLog(@"Error Creating token\nLocalized error: %@\nBusiness Error: %@", error.localizedDescription, businessError.merchantMessage);
+                                             }];
 }
 
 @end
