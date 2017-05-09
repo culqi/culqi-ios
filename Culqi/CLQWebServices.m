@@ -13,13 +13,6 @@
 #import "CLQResponseHeaders.h"
 #import "CLQError.h"
 #import "CLQToken.h"
-#import "CLQCharge.h"
-#import "CLQRefund.h"
-#import "CLQCustomer.h"
-#import "CLQCard.h"
-#import "CLQPlan.h"
-#import "CLQSubscription.h"
-#import "CLQPaging.h"
 
 @implementation CLQWebServices
 
@@ -58,6 +51,31 @@
                              [CLQError newWithData:[self getBusinessErrorFromError:error]],
                              error);
     }];
+}
+
+#pragma mark - Helpers
+
++ (NSDictionary *)headersFromResponseTask:(NSURLSessionDataTask *)task {
+    
+    NSHTTPURLResponse *reponse = (NSHTTPURLResponse *)task.response;
+    if ([reponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        return reponse.allHeaderFields;
+    }
+    
+    return nil;
+}
+
++ (NSDictionary *)getBusinessErrorFromError:(NSError *)error {
+    
+    NSData *businessErrorRawData = [error.userInfo objectForKey:AFNetworkingOperationFailingURLResponseDataErrorKey];
+    if ([businessErrorRawData isKindOfClass:[NSData class]]) {
+        NSDictionary *businessErrorData = [NSJSONSerialization JSONObjectWithData:businessErrorRawData options:NSJSONReadingAllowFragments error:nil];
+        if ([businessErrorData isKindOfClass:[NSDictionary class]]) {
+            return businessErrorData;
+        }
+    }
+    
+    return nil;
 }
 
 @end

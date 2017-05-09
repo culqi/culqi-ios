@@ -23,7 +23,7 @@ DESC
 
 s.homepage         = 'https://www.culqi.com'
 s.license          = { :type => 'MIT', :file => 'LICENSE' }
-s.author           = { 'Guillermo Saenz' => 'gsaenz@proatomicdev.com' }
+s.author           = { 'Guillermo Sáenz' => 'gsaenz@proatomicdev.com' }
 s.source           = { :git => 'https://github.com/culqi/culqi-ios.git', :tag => s.version.to_s }
 
 s.ios.deployment_target = '8.0'
@@ -33,8 +33,8 @@ s.default_subspecs= [
 ]
 
 s.subspec "Models" do |ss|
-    ss.source_files = 'Culqi/CLQ{BaseModelObject,Token,IssuerIdentificationNumber,CardIssuer,Client}.{h,m}'
-    ss.public_header_files = 'Culqi/CLQ{BaseModelObject,Token,IssuerIdentificationNumber,CardIssuer,Client}.h'
+    ss.source_files = 'Culqi/CLQ{BaseModelObject,ResponseHeaders,Error,Token,IssuerIdentificationNumber,CardIssuer,Client}.{h,m}'
+    ss.public_header_files = 'Culqi/CLQ{BaseModelObject,ResponseHeaders,Error,Token,IssuerIdentificationNumber,CardIssuer,Client}.h'
 end
 
 s.subspec "Networking" do |ss|

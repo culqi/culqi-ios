@@ -80,6 +80,8 @@ static bool isFirstAccess = YES;
 
 + (void)setApiKey:(NSString *)apiKey {
     
+    NSAssert(apiKey, @"API Key can't be null");
+    
     [Culqi sharedInstance].apiKey = apiKey;
     
     [CLQWebServices setAutorizationHeaderFieldWithApiKey:apiKey];

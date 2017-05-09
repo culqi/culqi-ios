@@ -2,21 +2,15 @@
 //  CLQAppDelegate.m
 //  Culqi
 //
-//  Created by Guillermo Saenz on 09/18/2016.
-//  Copyright (c) 2016 Guillermo Saenz. All rights reserved.
+//  Created by Guillermo Sáenz on 09/18/2016.
+//  Copyright (c) 2016 Guillermo Sáenz. All rights reserved.
 //
 
 #import "CLQAppDelegate.h"
 
-#import <Culqi/Culqi.h>
-
 @implementation CLQAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    // We start the SDK with our merchant code
-#warning Don't forget to put your merchant code. Get it here: https://integ-panel.culqi.com/#/registro
-    [[Culqi sharedInstance] setMerchantCode:@"<CHANGE THIS FOR YOUR MERCHANT CODE>"];
     
     return YES;
 }
