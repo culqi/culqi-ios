@@ -7,9 +7,9 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'Culqi'
-  s.version          = '1.0'
-  s.summary          = 'A short description of Culqi.'
+s.name             = 'Culqi'
+s.version          = '2.0'
+s.summary          = 'A short description of Culqi.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -17,28 +17,37 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = <<-DESC
+s.description      = <<-DESC
 TODO: Add long description of the pod here.
-                       DESC
+DESC
 
-  s.homepage         = 'https://www.culqi.com'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
-##############################################################################################
-  s.author           = { 'Guillermo Saenz' => 'gsaenz@proatomicdev.com' } # <--------Change this
-##############################################################################################
-  s.source           = { :git => 'https://github.com/culqi/culqi-ios.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+s.homepage         = 'https://www.culqi.com'
+s.license          = { :type => 'MIT', :file => 'LICENSE' }
+s.author           = { 'Guillermo Saenz' => 'gsaenz@proatomicdev.com' }
+s.source           = { :git => 'https://github.com/culqi/culqi-ios.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.0'
+s.ios.deployment_target = '8.0'
 
-  s.source_files = 'Culqi/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'Culqi' => ['Culqi/Assets/*.png']
-  # }
+s.default_subspecs= [
+    "Core"
+]
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'AFNetworking'#, '~> 2.3'
+s.subspec "Models" do |ss|
+    ss.source_files = 'Culqi/CLQ{BaseModelObject,Token,IssuerIdentificationNumber,CardIssuer,Client}.{h,m}'
+    ss.public_header_files = 'Culqi/CLQ{BaseModelObject,Token,IssuerIdentificationNumber,CardIssuer,Client}.h'
+end
+
+s.subspec "Networking" do |ss|
+    ss.dependency 'Culqi/Models'
+    ss.dependency 'AFNetworking'
+    ss.source_files = 'Culqi/CLQ{HTTPSessionManager,WebServices}.{h,m}'
+    ss.public_header_files = 'Culqi/CLQ{HTTPSessionManager,WebServices}.h'
+end
+
+s.subspec "Core" do |ss|
+    ss.dependency 'Culqi/Networking'
+    ss.source_files = 'Culqi/Culqi.{h,m}'
+    ss.public_header_files = 'Culqi/Culqi.h'
+end
+
 end
