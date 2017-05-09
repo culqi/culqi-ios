@@ -1,14 +1,10 @@
 # Culqi iOS
 
-#[![Latest Stable Version](https://poser.pugx.org/culqi/culqi-php/v/stable)](https://packagist.org/packages/culqi/culqi-php)
-#[![Total Downloads](https://poser.pugx.org/culqi/culqi-php/downloads)](https://packagist.org/packages/culqi/culqi-php)
-#[![License](https://poser.pugx.org/culqi/culqi-php/license)](https://packagist.org/packages/culqi/culqi-php)
-
 SDK oficial de CULQI para iOS, pagos simples en tu sitio web.
 
 > **Importante**: Hemos descontinuado el soporte a la versión 1.0 de Culqi API para centrarnos en la nueva versión. 
 
-**Nota**: Esta biblioteca trabaja con la [v1.2](https://culqi.api-docs.io/v1.2) de Culqi API.
+**Nota**: Esta biblioteca trabaja con la [v2.0](https://culqi.api-docs.io/v1.2) de Culqi API.
 
 
 ## Requisitos
@@ -25,11 +21,11 @@ SDK oficial de CULQI para iOS, pagos simples en tu sitio web.
 To see the SDK in action just download this repository and run: 
 
 ```bash
-$ gem cd culqi-ios/Example
-$ gem pod install 
+$ cd culqi-ios/Example
+$ pod install 
 ```
 Open Culqi.xcworkspace and run it!
-> **Don't forget**: Change the merchant code in the CLQAppDelegate.m class  
+> **Don't forget**: Change the API Key in the ViewDidLoad method of CLQViewController class  
 
 ## Instalación
 
@@ -54,7 +50,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'Culqi', '~> 1.0'
+pod 'Culqi', '~> 2.0'
 end
 ```
 
@@ -82,15 +78,15 @@ Ahora, incluir la carpeta `Culqi"` en tu proyecto. Debes hacer el llamado correc
 
 ## Modo de uso
 
-Inicialmente hay que configurar la credencial `merchantCode`:
+Inicialmente hay que configurar el SDK colocando un API Key`:
 
 ```objective-c
-// Configurar tu Código de Comercio
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+// Coloca tu API Key
+- (void)viewDidLoad {
+[super viewDidLoad];
 
-    [[Culqi sharedInstance] setMerchantCode:@"<CHANGE THIS FOR YOUR MERCHANT CODE>"];
-
-    return YES;
+// We start the SDK with our API Key
+[Culqi setApiKey:nil];
 }
 
 
@@ -101,27 +97,20 @@ Antes de crear un Cargo, Plan o un Suscripción es necesario crear un `token` de
 
 
 ```objective-c
-
-CLQCard *card = [CLQCard newWithNumber:[numberFormatter numberFromString:self.txtFieldCardNumber.text]
-                                   CVC:[numberFormatter numberFromString:self.txtFieldCVC.text]
-                              expMonth:[numberFormatter numberFromString:self.txtFieldExpMonth.text]
-                               expYear:[numberFormatter numberFromString:self.txtFieldExpYear.text]
-
-                             firstName:self.txtFieldName.text
-                              lastName:self.txtFieldLastName.text
-                                email:self.txtFieldEmail.text];
-
-[[Culqi sharedInstance] createTokenForCard:card success:^(CLQToken * _Nonnull token) {
-    NSLog(@"Did create token with identifier: %@", token.identifier);
-} failure:^(NSError * _Nonnull error) {
-    NSLog(@"Error Creating token: %@", error.localizedDescription);
+[[Culqi sharedInstance] createTokenWithCardNumber:self.textFieldCardNumber.text
+cvv:self.textFieldCVC.text
+expirationMonth:self.textFieldExpMonth.text
+expirationYear:self.textFieldExpYear.text
+email:self.textFieldEmail.text
+metadata:nil
+success:^(CLQResponseHeaders * _Nonnull responseHeaders, CLQToken * _Nonnull token) {
+NSLog(@"Did create token with identifier: %@", token.identifier);
+} failure:^(CLQResponseHeaders * _Nonnull responseHeaders, CLQError * _Nonnull businessError, NSError * _Nonnull error) {
+NSLog(@"Error Creating token\nLocalized error: %@\nBusiness Error: %@", error.localizedDescription, businessError.merchantMessage);
 }];
-
-
 ```
 ## Documentación
 ¿Necesitas más información para integrar `culqi-ios`? La documentación completa se encuentra en [https://developers.culqi.com](https://developers.culqi.com)
-
 
 ## Licencia
 
