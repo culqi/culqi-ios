@@ -29,7 +29,7 @@
     
     // We start the SDK with our merchant code
 #warning Don't forget to put your public key. Get it here: https://integ-panel.culqi.com/#/registro
-    [Culqi setApiKey:@"pk_test_faXvVfDaxIM1152Z"];
+    [Culqi setApiKey:nil];
 }
 
 - (void)didReceiveMemoryWarning {
