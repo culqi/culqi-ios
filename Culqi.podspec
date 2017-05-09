@@ -9,17 +9,8 @@
 Pod::Spec.new do |s|
 s.name             = 'Culqi'
 s.version          = '2.0'
-s.summary          = 'A short description of Culqi.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
-s.description      = <<-DESC
-TODO: Add long description of the pod here.
-DESC
+s.summary          = 'Recibe pagos con tarjeta de crédito, débito y prepagadas de todas las marcas.'
+s.description      = 'Acepta pagos con tarjetas de crédito o débito, dándole a tu cliente la experiencia de compra más simple en tu página web y aplicación móvil.'
 
 s.homepage         = 'https://www.culqi.com'
 s.license          = { :type => 'MIT', :file => 'LICENSE' }
