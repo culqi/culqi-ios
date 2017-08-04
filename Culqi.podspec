@@ -7,38 +7,38 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'Culqi'
-  s.version          = '1.0'
-  s.summary          = 'A short description of Culqi.'
+s.name             = 'Culqi'
+s.version          = '2.0'
+s.summary          = 'Recibe pagos con tarjeta de crédito, débito y prepagadas de todas las marcas.'
+s.description      = 'Acepta pagos con tarjetas de crédito o débito, dándole a tu cliente la experiencia de compra más simple en tu página web y aplicación móvil.'
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
+s.homepage         = 'https://www.culqi.com'
+s.license          = { :type => 'MIT', :file => 'LICENSE' }
+s.author           = { 'Guillermo Sáenz' => 'gsaenz@proatomicdev.com' }
+s.source           = { :git => 'https://github.com/culqi/culqi-ios.git', :tag => s.version.to_s }
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+s.ios.deployment_target = '8.0'
 
-  s.homepage         = 'https://www.culqi.com'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
-##############################################################################################
-  s.author           = { 'Guillermo Saenz' => 'gsaenz@proatomicdev.com' } # <--------Change this
-##############################################################################################
-  s.source           = { :git => 'https://github.com/culqi/culqi-ios.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+s.default_subspecs= [
+    "Core"
+]
 
-  s.ios.deployment_target = '8.0'
+s.subspec "Models" do |ss|
+    ss.source_files = 'Culqi/CLQ{BaseModelObject,ResponseHeaders,Error,Token,IssuerIdentificationNumber,CardIssuer,Client}.{h,m}'
+    ss.public_header_files = 'Culqi/CLQ{BaseModelObject,ResponseHeaders,Error,Token,IssuerIdentificationNumber,CardIssuer,Client}.h'
+end
 
-  s.source_files = 'Culqi/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'Culqi' => ['Culqi/Assets/*.png']
-  # }
+s.subspec "Networking" do |ss|
+    ss.dependency 'Culqi/Models'
+    ss.dependency 'AFNetworking'
+    ss.source_files = 'Culqi/CLQ{HTTPSessionManager,WebServices}.{h,m}'
+    ss.public_header_files = 'Culqi/CLQ{HTTPSessionManager,WebServices}.h'
+end
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'AFNetworking'#, '~> 2.3'
+s.subspec "Core" do |ss|
+    ss.dependency 'Culqi/Networking'
+    ss.source_files = 'Culqi/Culqi.{h,m}'
+    ss.public_header_files = 'Culqi/Culqi.h'
+end
+
 end
