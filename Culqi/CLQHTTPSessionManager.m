@@ -1,9 +1,9 @@
 //
 //  CLQHTTPSessionManager.m
-//  
+//  Culqi
 //
-//  Created by Guillermo Saenz on 9/18/16.
-//  Copyright (c) 2016 Guillermo Saenz. All rights reserved.
+//  Created by Guillermo Sáenz on 9/18/16.
+//  Copyright (c) 2016 Guillermo Sáenz. All rights reserved.
 //
 
 #import "CLQHTTPSessionManager.h"
@@ -34,7 +34,7 @@ static bool isFirstAccess = YES;
     return SINGLETON;
 }
 
-+ (CLQHTTPSessionManager *)manager{
++ (CLQHTTPSessionManager *)manager {
     NSAssert(SINGLETON, @"You must initialize this class with the base URL");
     
     return SINGLETON;
@@ -42,27 +42,27 @@ static bool isFirstAccess = YES;
 
 #pragma mark - Life Cycle
 
-+ (id) allocWithZone:(NSZone *)zone{
++ (id) allocWithZone:(NSZone *)zone {
     return [self manager];
 }
 
-+ (id)copyWithZone:(struct _NSZone *)zone{
++ (id)copyWithZone:(struct _NSZone *)zone {
     return [self manager];
 }
 
-+ (id)mutableCopyWithZone:(struct _NSZone *)zone{
++ (id)mutableCopyWithZone:(struct _NSZone *)zone {
     return [self manager];
 }
 
-- (id)copy{
+- (id)copy {
     return [[CLQHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:self.baseURLString]];
 }
 
-- (id)mutableCopy{
+- (id)mutableCopy {
     return [[CLQHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:self.baseURLString]];
 }
 
-- (instancetype)initWithBaseURLString:(NSString *)URLString{
+- (instancetype)initWithBaseURLString:(NSString *)URLString {
     if(SINGLETON){
         return SINGLETON;
     }
@@ -76,12 +76,9 @@ static bool isFirstAccess = YES;
         [self setRequestSerializer:[AFJSONRequestSerializer serializer]];
         [self setResponseSerializer:[AFJSONResponseSerializer serializer]];
         
-        [self.requestSerializer setTimeoutInterval:60.0];
-        
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
         
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [self.responseSerializer setAcceptableContentTypes:[self.responseSerializer.acceptableContentTypes setByAddingObjectsFromArray:@[@"text/html", @"application/x-www-form-urlencoded"]]];
     }
     return self;
 }

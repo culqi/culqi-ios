@@ -2,10 +2,10 @@ use_frameworks!
 
 target 'Culqi_Example' do
   pod 'Culqi', :path => '../'
-
+  
+  pod 'SVProgressHUD'
+  
   target 'Culqi_Tests' do
     inherit! :search_paths
-
-#pod 'FBSnapshotTestCase'
   end
 end
