@@ -22,7 +22,7 @@
 
 @implementation Culqi
 
-static NSString *CLQCheckoutBaseURLString = @"https://api.culqi.com/v2/";
+static NSString *CLQCheckoutBaseURLString = @"https://secure.culqi.com/v2";
 
 static Culqi *SINGLETON = nil;
 
