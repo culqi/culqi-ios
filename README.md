@@ -25,7 +25,10 @@ $ cd culqi-ios/Example
 $ pod install 
 ```
 Open Culqi.xcworkspace and run it!
-> **Don't forget**: Change the API Key in the ViewDidLoad method of CLQViewController class  
+
+## Configurar las pruebas y ejemplos
+
+El ejemplo utiliza el placeholder `INSERTE_SU_LLAVE_PUBLICA`. Para probarlo localmente, reemplázalo por tu propia llave pública de pruebas (`pk_test_`). No hagas commit de llaves; conserva el placeholder en el repositorio.
 
 ## Instalación
 
@@ -81,12 +84,12 @@ Ahora, incluir la carpeta `Culqi"` en tu proyecto. Debes hacer el llamado correc
 Inicialmente hay que configurar el SDK colocando un API Key`:
 
 ```objective-c
-// Coloca tu API Key
+// Coloca tu llave pública de pruebas
 - (void)viewDidLoad {
 [super viewDidLoad];
 
 // We start the SDK with our API Key
-[Culqi setApiKey:nil];
+[Culqi setApiKey:@"INSERTE_SU_LLAVE_PUBLICA"];
 }
 
 

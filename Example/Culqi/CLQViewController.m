@@ -29,7 +29,7 @@
     
     // We start the SDK with our API Key
 #warning Don't forget to put your public key. Get it here: https://integ-panel.culqi.com/#/registro
-    [Culqi setApiKey:nil];
+    [Culqi setApiKey:@"INSERTE_SU_LLAVE_PUBLICA"];
 }
 
 - (void)didReceiveMemoryWarning {
